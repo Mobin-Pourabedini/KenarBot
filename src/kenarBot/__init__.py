@@ -1,1 +1,1 @@
-from app import KenarBot
+from .app import KenarBot
