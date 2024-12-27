@@ -1,6 +1,6 @@
 from typing import Optional, Callable
 import re
-from kenarBot.types import ChatBotMessage
+from .types import ChatBotMessage
 
 
 class ChatBotMessageHandler:

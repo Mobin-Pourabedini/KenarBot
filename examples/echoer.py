@@ -1,7 +1,7 @@
 import os
 
-from kenarBot.app import KenarBot
-from kenarBot.types import ChatBotMessage
+from src.kenarBot.app import KenarBot
+from src.kenarBot.types import ChatBotMessage
 
 DIVAR_API_KEY = os.getenv("DIVAR_API_KEY")
 DIVAR_IDENTIFICATION_KEY = os.getenv("DIVAR_IDENTIFICATION_KEY")
