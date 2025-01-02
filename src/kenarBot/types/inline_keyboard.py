@@ -6,11 +6,26 @@ from src.kenarBot.types.actions import Action
 
 
 class InlineKeyboardMarkup:
-    def __init__(self, row_width=3):
-        self.keyboard: List[List[InlineKeyboardButton]] = []
-        self.row_width = row_width
+    max_rows = 3
+    max_buttons_per_row = 3
 
-    def row(self, *args) -> 'InlineKeyboardMarkup':
+    def __init__(self):
+        self.keyboard: List[List[InlineKeyboardButton]] = []
+
+    def row(self, *args: 'InlineKeyboardButton') -> 'InlineKeyboardMarkup':
+        if len(args) == 0:
+            return self
+
+        if len(args) > self.max_buttons_per_row:
+            raise ValueError(f"Maximum number of buttons per row is {self.max_buttons_per_row}")
+
+        if len(self.keyboard) == self.max_rows:
+            raise ValueError(f"Maximum number of rows is {self.max_rows}")
+
+        for button in args:
+            if not isinstance(button, InlineKeyboardButton):
+                raise ValueError("All arguments must be of type InlineKeyboardButton")
+
         button_row = [button for button in args]
         self.keyboard.append(button_row)
         return self
@@ -20,12 +35,17 @@ class InlineKeyboardMarkup:
 
     def to_dict(self):
         return {
-            "rows" : [{"buttons": [button.to_dict() for button in row]} for row in self.keyboard]
+            "rows": [{"buttons": [button.to_dict() for button in row]} for row in self.keyboard]
         }
 
 
 class InlineKeyboardButton:
     def __init__(self, text: str, action: Action, icon: Optional[Icon] = None):
+        if not text:
+            raise ValueError("Button text must not be empty")
+        if not isinstance(action, Action):
+            raise ValueError("Button action must be of type Action")
+
         self.text: str = text
         self.action: Action = action
         self.icon: Icon = icon
