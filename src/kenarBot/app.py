@@ -1,5 +1,6 @@
 from typing import Optional
 from .message_handler import ChatBotMessageHandler
+from .types.inline_keyboard import InlineKeyboardMarkup
 from flask import Flask, request, Response
 import requests
 
@@ -13,7 +14,7 @@ class KenarBot:
         self.x_api_key = x_api_key
         self.message_handlers = []
 
-    def send_message(self, conversation_id: str, message: str):
+    def send_message(self, conversation_id: str, message: str, keyboard_markup: Optional[InlineKeyboardMarkup] = None):
         url = 'https://api.divar.ir/experimental/open-platform/chatbot-conversations/{conversation_id}/messages'
         url = url.format(conversation_id=conversation_id)
 
@@ -24,8 +25,10 @@ class KenarBot:
 
         payload = {
             "type": "TEXT",
-            "text_message": message
+            "text_message": message,
         }
+        if keyboard_markup is not None:
+            payload["buttons"] = keyboard_markup.to_dict()
 
         response = requests.post(url, json=payload, headers=headers)
 
