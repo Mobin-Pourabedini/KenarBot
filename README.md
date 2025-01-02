@@ -5,10 +5,15 @@
 [![PyPI version](https://badge.fury.io/py/kenarbot.svg)](https://badge.fury.io/py/kenarbot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Versions](https://img.shields.io/pypi/pyversions/kenarbot.svg)](https://pypi.org/project/kenarbot/)
-
+[![codecov](https://codecov.io/github/Mobin-Pourabedini/KenarBot/graph/badge.svg)](https://codecov.io/github/Mobin-Pourabedini/KenarBot)
 </div>
 
 A Python SDK for creating and managing Kenar messaging bots. KenarpyBot provides a simple, intuitive interface inspired by teleBot's syntax, making it easy for developers familiar with Telegram bot development to create bots for the Kenar platform.
+
+### What is Kenar Divar?
+[Kenar Divar](https://github.com/divar-ir/kenar-docs) is Divar's official platform that provides APIs for developers to create
+plugins and integrations with Divar. These APIs enable functionality like sending and receiving messages, editing posts, patching add-ons on posts and etc...
+, you should also checkput [Kenar Divar Panel](https://divar.ir/kenar)
 
 ## Features
 
