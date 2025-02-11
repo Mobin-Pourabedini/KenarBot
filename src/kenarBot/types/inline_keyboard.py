@@ -1,8 +1,8 @@
 import json
 from typing import List, Optional
 
-from src.kenarBot.types.icons import Icon
-from src.kenarBot.types.actions import Action
+from .icons import Icon
+from .actions import Action
 
 
 class InlineKeyboardMarkup:

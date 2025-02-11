@@ -2,7 +2,7 @@ from typing import Optional
 from .message_handler import ChatBotMessageHandler
 from .types.inline_keyboard import InlineKeyboardMarkup
 from flask import Flask, request, Response
-import requests
+import httpx
 
 from .types import ChatBotMessage
 
@@ -13,15 +13,14 @@ class KenarBot:
         self.webhook_url = webhook_url
         self.x_api_key = x_api_key
         self.message_handlers = []
+        self.client = httpx.Client(headers={
+            'Content-Type': 'application/json',
+            'X-Api-Key': self.x_api_key
+        })
 
     def send_message(self, conversation_id: str, message: str, keyboard_markup: Optional[InlineKeyboardMarkup] = None):
         url = 'https://api.divar.ir/experimental/open-platform/chatbot-conversations/{conversation_id}/messages'
         url = url.format(conversation_id=conversation_id)
-
-        headers = {
-            'Content-Type': 'application/json',
-            'X-Api-Key': self.x_api_key
-        }
 
         payload = {
             "type": "TEXT",
@@ -30,7 +29,7 @@ class KenarBot:
         if keyboard_markup is not None:
             payload["buttons"] = keyboard_markup.to_dict()
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = self.client.post(url, json=payload)
 
         print(response.status_code)
         print(response.json())
@@ -60,14 +59,14 @@ class KenarBot:
             if data.get('type') != 'NEW_CHATBOT_MESSAGE':
                 return Response(
                     '{"message": "message sent to chatbot webhook is not of form \"NEW_CHATBOT_MESSAGE\""}',
-                    status=400)
+                    status=200)
             chatbot_message = data.get('new_chatbot_message')
             if not chatbot_message:
                 return Response(
                     '{"message": "message sent to chatbot does not have key \"new_chatbot_message\""}',
-                    status=400)
+                    status=200)
             if chatbot_message.get('type') != 'TEXT':
-                return Response('{"message": "message types other than text not supported"}', status=501)
+                return Response('{"message": "message type not supported for processing"}', status=200)
             text = chatbot_message.get('message_text')
             conversation_id = chatbot_message.get('conversation').get('id')
             self._process_new_chatbot_message(ChatBotMessage(text, conversation_id))

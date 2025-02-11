@@ -171,6 +171,5 @@ cython_debug/
 .pypirc
 
 pyproject.toml
-setup.cfg
 dist
 kenarBot.egg-info
