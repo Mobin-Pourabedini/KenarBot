@@ -47,7 +47,7 @@ class KenarBot:
                 message_handler.process(message)
                 break
 
-    def run(self):
+    def run(self, host='0.0.0.0', port=80, debug=False):
         app = Flask(__name__)
 
         @app.route(self.webhook_url, methods=['POST'])
@@ -72,4 +72,4 @@ class KenarBot:
             self._process_new_chatbot_message(ChatBotMessage(text, conversation_id))
             return Response('{"message": "message processed"}', status=200)
 
-        app.run(debug=True)
+        app.run(host=host, port=port, debug=debug)
