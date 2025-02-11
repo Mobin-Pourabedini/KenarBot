@@ -1,11 +1,16 @@
+import sys
 from typing import Optional
 from .message_handler import ChatBotMessageHandler
 from .types.inline_keyboard import InlineKeyboardMarkup
 from flask import Flask, request, Response
 import httpx
+import logging
 
 from .types import ChatBotMessage
 
+
+logging.basicConfig()
+logger = logging.getLogger("kenarBot")
 
 class KenarBot:
     def __init__(self, divar_identification_key: str, webhook_url: str, x_api_key: str):
@@ -48,14 +53,18 @@ class KenarBot:
                 break
 
     def run(self, host='0.0.0.0', port=80, debug=False):
+        if debug:
+            logger.setLevel(logging.DEBUG)
         app = Flask(__name__)
 
         @app.route(self.webhook_url, methods=['POST'])
         def webhook():
             headers = request.headers
+            logger.info(f"headers: {headers}")
             if headers.get('Authorization') != self.divar_identification_key:
                 return Response('{"message": "unauthorized request"}', status=403)
             data = request.get_json()
+            logger.info(f"data: {data}")
             if data.get('type') != 'NEW_CHATBOT_MESSAGE':
                 return Response(
                     '{"message": "message sent to chatbot webhook is not of form \"NEW_CHATBOT_MESSAGE\""}',

@@ -26,4 +26,4 @@ def handle_hello(chatbot_message: ChatBotMessage):
 
 
 if __name__ == "__main__":
-    bot.run()
+    bot.run(port=5001, debug=True)
