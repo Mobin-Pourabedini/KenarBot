@@ -76,7 +76,7 @@ class KenarBot:
                     status=200)
             if chatbot_message.get('type') != 'TEXT':
                 return Response('{"message": "message type not supported for processing"}', status=200)
-            text = chatbot_message.get('message_text')
+            text = chatbot_message.get('text')
             conversation_id = chatbot_message.get('conversation').get('id')
             self._process_new_chatbot_message(ChatBotMessage(text, conversation_id))
             return Response('{"message": "message processed"}', status=200)
