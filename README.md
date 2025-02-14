@@ -23,6 +23,9 @@ plugins and integrations with Divar. These APIs enable functionality like sendin
 - ⚡ Flask-based webhook handling
 - ⚙️ Straightforward bot configuration
 
+## Examples
+- [Cowsay echo bot](https://github.com/Mobin-Pourabedini/divar-echo-bot)
+
 ## Installation
 
 ```bash
