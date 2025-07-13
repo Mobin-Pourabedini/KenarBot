@@ -5,6 +5,7 @@ from .types.inline_keyboard import InlineKeyboardMarkup
 from flask import Flask, request, Response
 import httpx
 import logging
+from .consts import BASE_URL
 
 from .types import ChatBotMessage
 
@@ -24,7 +25,7 @@ class KenarBot(Flask):
         self.route(webhook_url, methods=['POST'])(self.webhook)
 
     def send_message(self, conversation_id: str, message: str, keyboard_markup: Optional[InlineKeyboardMarkup] = None):
-        url = 'https://api.divar.ir/experimental/open-platform/chatbot-conversations/{conversation_id}/messages'
+        url = f"{BASE_URL}/v1/open-platform/chat/bot/conversations/{conversation_id}/messages"
         url = url.format(conversation_id=conversation_id)
 
         payload = {
