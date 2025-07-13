@@ -37,7 +37,7 @@ class KenarBot(Flask):
 
         response = self.client.post(url, json=payload)
         logger.info(f"response status code: {response.status_code}")
-        logger.info(f"response json: {response.json()}")
+        logger.info(f"response json: {response}")
 
     def message_handler(self, regexp: Optional[str] = None):
         def decorator(f):
